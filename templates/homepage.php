@@ -26,7 +26,14 @@
                     </span>
                 <?php } ?>
             </h2>
-            <p class="summary"><?php echo htmlspecialchars($article->summary)?></p>
+            <?php
+                $content = mb_substr($article->content, 0, 50);
+                $lastSpace = mb_strrpos($content, ' ');
+                if ($lastSpace !== false){
+                    $content = mb_substr($content, 0, $lastSpace);
+                }
+                ?>
+            <p class="summary"><?php echo htmlspecialchars($content)?></p>
             <img id="loader-identity" src="JS/ajax-loader.gif" alt="gif">
             
             <ul class="ajax-load">
