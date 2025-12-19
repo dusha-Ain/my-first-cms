@@ -360,10 +360,6 @@ class Article
                     a.title,
                     c.name as category_name,
                     s.name as subcategory_name,
-                    CASE 
-                        WHEN LENGTH(a.content) > 50 THEN CONCAT(SUBSTRING(a.content, 1, 50), '...')
-                        ELSE a.content
-                    END AS summary,
                     a.content,
                     a.activity,
                     UNIX_TIMESTAMP(a.publicationDate) AS publicationDate
@@ -418,7 +414,6 @@ class Article
         $st->bindValue( ":categoryId", $this->categoryId, PDO::PARAM_INT );
         $st->bindValue( ":subcategoryId", $this->subcategoryId, PDO::PARAM_INT );
         $st->bindValue( ":title", $this->title, PDO::PARAM_STR );
-        $st->bindValue( ":summary", $this->summary, PDO::PARAM_STR );
         $st->bindValue( ":content", $this->content, PDO::PARAM_STR );
         $st->bindValue( ":activity", $this->activity, PDO::PARAM_INT );
         $st->execute();
@@ -447,7 +442,6 @@ class Article
       $st->bindValue( ":categoryId", $this->categoryId, PDO::PARAM_INT );
       $st->bindValue( ":subcategoryId", $this->subcategoryId, PDO::PARAM_INT );
       $st->bindValue( ":title", $this->title, PDO::PARAM_STR );
-      $st->bindValue( ":summary", $this->summary, PDO::PARAM_STR );
       $st->bindValue( ":content", $this->content, PDO::PARAM_STR );
       $st->bindValue( ":activity", $this->activity, PDO::PARAM_INT );
       $st->bindValue( ":id", $this->id, PDO::PARAM_INT );

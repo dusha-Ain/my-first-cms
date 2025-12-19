@@ -57,14 +57,20 @@
                 <?php } ?>
             </div>
             
-            <p class="summary"><?php echo htmlspecialchars($article->summary)?></p>
-            <img id="loader-identity" src="JS/ajax-loader.gif" alt="gif">
+            <p class="summary"> <?php
+                $content = strip_tags($article->content);
+                $summary = mb_substr($content, 0, 50, 'UTF-8');
+                if (mb_strlen($content, 'UTF-8') > 50) {
+                    $summary .= '...';
+                }
+                echo htmlspecialchars($summary);
+            ?></p>
+
+            <img class="loader-identity" src="JS/ajax-loader.gif" alt="gif" style="display:none;">
             
             <ul class="ajax-load">
-                <li><a href=".?action=viewArticle&amp;articleId=<?php echo $article->id?>" class="ajaxArticleBodyByPost" data-contentId="<?php echo $article->id?>">Показать продолжение (POST)</a></li>
-                <li><a href=".?action=viewArticle&amp;articleId=<?php echo $article->id?>" class="ajaxArticleBodyByGet" data-contentId="<?php echo $article->id?>">Показать продолжение (GET)</a></li>
-                <li><a href=".?action=viewArticle&amp;articleId=<?php echo $article->id?>" class="">(POST) -- NEW</a></li>
-                <li><a href=".?action=viewArticle&amp;articleId=<?php echo $article->id?>" class="">(GET)  -- NEW</a></li>
+                <li><a href="#" class="ajaxArticleBodyByPost" data-contentId="<?php echo $article->id?>">Показать продолжение (POST)</a></li>
+                <li><a href="#" class="ajaxArticleBodyByGet" data-contentId="<?php echo $article->id?>">Показать продолжение (GET) </a><li>
             </ul>
             <a href=".?action=viewArticle&amp;articleId=<?php echo $article->id?>" class="showContent" data-contentId="<?php echo $article->id?>">Показать полностью</a>
         </li>

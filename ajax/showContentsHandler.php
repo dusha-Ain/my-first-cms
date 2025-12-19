@@ -1,30 +1,48 @@
 <?php
 require ('../config.php');
 
+header('Content-Type: application/json; charset=utf-8');
+
+// Обработка GET запроса
 if (isset($_GET['articleId'])) {
-    $article = Article::getById((int)$_GET['articleId']);
-    echo $article->content;
-}
-if (isset ($_POST['articleId'])) {
-    //die("Привет)");
-    $article = Article::getById((int)$_POST['articleId']);
-    echo json_encode($article);
-//        die("Привет)");
-//    $conn = new PDO( DB_DSN, DB_USERNAME, DB_PASSWORD );
-//    
-//        if (isset($conn)) {
-//            die("Соединенте установлено");
-//        }
-//        else {
-//            die("Соединение не установлено");
-//        }
-//    $article = "WHERE Id=". (int)$_POST[articleId];
-//    echo $article;
-//    $sql = "SELECT content FROM articles". $article;
-//    $contentFromDb = $conn->prepare( $sql );
-//    $contentFromDb->execute();
-//    $result = $contentFromDb->fetch();
-//    $conn = null;
-//    echo json_encode($result);
+    $articleId = (int)$_GET['articleId'];
+    $article = Article::getById($articleId);
+    
+    if ($article) {
+        echo json_encode([
+            'success' => true,
+            'content' => $article->content
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'error' => 'Статья не найдена'
+        ]);
+    }
+    exit;
 }
 
+// Обработка POST запроса
+if (isset($_POST['articleId'])) {
+    $articleId = (int)$_POST['articleId'];
+    $article = Article::getById($articleId);
+    
+    if ($article) {
+        echo json_encode([
+            'success' => true,
+            'content' => $article->content
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'error' => 'Статья не найдена'
+        ]);
+    }
+    exit;
+}
+
+// Если не передан articleId
+echo json_encode([
+    'success' => false,
+    'error' => 'Не указан ID статьи'
+]);
