@@ -7,7 +7,6 @@
             <div class="errorMessage"><?php echo $results['errorMessage'] ?></div>
     <?php } ?>
 
-
     <?php if ( isset( $results['statusMessage'] ) ) { ?>
             <div class="statusMessage"><?php echo $results['statusMessage'] ?></div>
     <?php } ?>
@@ -17,10 +16,10 @@
               <th>Publication Date</th>
               <th>Article</th>
               <th>Category</th>
+              <th>Subcategory</th>
+              <th>Activity</th>
             </tr>
 
-<!--<?php echo "<pre>"; print_r ($results['articles'][2]->publicationDate); echo "</pre>"; ?> Обращаемся к дате массива $results. Дата = 0 -->
-            
     <?php foreach ( $results['articles'] as $article ) { ?>
 
             <tr onclick="location='admin.php?action=editArticle&amp;articleId=<?php echo $article->id?>'">
@@ -29,18 +28,27 @@
                 <?php echo $article->title?>
               </td>
               <td>
-                  
-             <!--   <?php echo $results['categories'][$article->categoryId]->name?> Эта строка была скопирована с сайта-->
-             <!-- <?php echo "<pre>"; print_r ($article); echo "</pre>"; ?> Здесь объект $article содержит в себе только ID категории. А надо по ID достать название категории-->
-            <!--<?php echo "<pre>"; print_r ($results); echo "</pre>"; ?> Здесь есть доступ к полному объекту $results -->
-             
                 <?php 
-                if(isset ($article->categoryId)) {
+                if(isset($article->categoryId) && $article->categoryId && isset($results['categories'][$article->categoryId])) {
                     echo $results['categories'][$article->categoryId]->name;                        
                 }
                 else {
-                echo "Без категории";
+                    echo "Без категории";
                 }?>
+              </td>
+              <td>
+                <?php 
+                if(isset($article->subcategoryId) && $article->subcategoryId) {
+                    // Получаем название подкатегории
+                    $subcategory = Subcategory::getById($article->subcategoryId);
+                    echo $subcategory ? $subcategory->name : 'Unknown';
+                }
+                else {
+                    echo "Без подкатегории";
+                }?>
+              </td>
+              <td>
+                <?php echo $article->activity == 1 ? 'активен' : 'не активен'; ?>
               </td>
             </tr>
 
@@ -52,4 +60,4 @@
 
           <p><a href="admin.php?action=newArticle">Add a New Article</a></p>
 
-<?php include "templates/include/footer.php" ?>              
+<?php include "templates/include/footer.php" ?>

@@ -1,4 +1,3 @@
-
 <?php include "templates/include/header.php" ?>
     <ul id="headlines">
     <?php foreach ($results['articles'] as $article) { ?>
@@ -25,15 +24,20 @@
                         <?php echo "Без категории"?>
                     </span>
                 <?php } ?>
+                
+                <?php if (isset($article->subcategoryId) && $article->subcategoryId) { ?>
+                    <span class="subcategory">
+                        / 
+                        <a href=".?action=archiveBySubcategory&amp;subcategoryId=<?php echo $article->subcategoryId?>">
+                            <?php 
+                            $subcategory = Subcategory::getById($article->subcategoryId);
+                            echo $subcategory ? htmlspecialchars($subcategory->name) : 'Unknown';
+                            ?>
+                        </a>
+                    </span>
+                <?php } ?>
             </h2>
-            <?php
-                $content = mb_substr($article->content, 0, 50);
-                $lastSpace = mb_strrpos($content, ' ');
-                if ($lastSpace !== false){
-                    $content = mb_substr($content, 0, $lastSpace);
-                }
-                ?>
-            <p class="summary"><?php echo htmlspecialchars($content)?></p>
+            <p class="summary"><?php echo htmlspecialchars($article->summary)?></p>
             <img id="loader-identity" src="JS/ajax-loader.gif" alt="gif">
             
             <ul class="ajax-load">
@@ -48,5 +52,3 @@
     </ul>
     <p><a href="./?action=archive">Article Archive</a></p>
 <?php include "templates/include/footer.php" ?>
-
-    
