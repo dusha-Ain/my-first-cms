@@ -60,6 +60,21 @@ if (isset($results['category']) && $results['category']) {
             }
             ?>
         </h2>
+        <p class="authors">
+            <?php
+            // Получаем авторов статьи
+            $authors = Article::getArticleAuthors($article->id);
+            if ($authors) {
+                $authorNames = [];
+                foreach ($authors as $author) {
+                    $authorNames[] = htmlspecialchars($author->username);
+                }
+                echo 'Author(s): ' . implode(', ', $authorNames);
+            } else {
+                echo 'Author(s): Unknown';
+            }
+            ?>
+        </p>
         <p class="summary"><?php echo htmlspecialchars($article->summary); ?></p>
     </li>
 

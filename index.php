@@ -101,6 +101,7 @@ function viewArticle()
         throw new Exception("Статья с id = $articleId не найдена");
     }
     
+    
     $results['category'] = Category::getById($results['article']->categoryId);
     $results['pageTitle'] = $results['article']->title . " | Простая CMS";
     
@@ -129,11 +130,6 @@ function homepage()
     } 
     
     $results['pageTitle'] = "Простая CMS на PHP";
-    
-//    echo "<pre>";
-//    print_r($data);
-//    echo "</pre>";
-//    die();
     
     require(TEMPLATE_PATH . "/homepage.php");
     
